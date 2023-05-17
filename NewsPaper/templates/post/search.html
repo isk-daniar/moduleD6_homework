@@ -1,0 +1,50 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+  Поиск новостей
+{% endblock %}
+
+{% block content %}
+  <h1>Поиск новостей:</h1>
+  <form method="GET" class="form-control">
+    {{ filter.form }}
+    <input type="submit" value="Найти" class="btn btn-primary" />
+    <!-- <input type ="reset"> -->
+  </form>
+  <h4>По вашему запросу найдено результатов: {{ filter.qs|length }}</h4>
+  {% if filter %}
+    <table class="table">
+      <thead>
+        <th>Результат</th>
+        <th>Автор</th>
+        <th>Заголовок</th>
+        <th>Время публикации</th>
+        <th>Тип поста</th>
+        <th>Категория</th>
+        <th>Превью</th>
+        <th>Рейтинг</th>
+        <th>Действия</th>
+      </thead>
+      {% for p in filter.qs %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.author }}</td>
+          <td><a href="{% url 'post_detail' p.id %}">{{ p.title|censor }}</a></td>
+          <td>{{ p.time|date:'d M Y' }}</td>
+          <td>{{ p.get_post_type }}</td>
+          <td>{{ p.category.all|join:', ' }}</td>
+          <td>{{ p.preview|truncatechars:20|censor }}</td>
+          <td>{{ p.rating }}</td>
+          <td> 
+            <a href="{% url 'post_update' p.id %}">Редактировать новость</a><br>
+            <a href="{% url 'post_delete' p.id %}">Удалить новость</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <h1>Постов нет</h1>
+  {% endif %}
+{% endblock %}

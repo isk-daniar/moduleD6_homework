@@ -1,0 +1,21 @@
+{% extends 'default.html' %}
+
+{% load i18n %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<h1>Регистрация</h1>
+
+<p>Уже есть аккаунт? Тогда просто <a href="{{ login_url }}">войдите</a>.</p>
+
+<form class="signup form-control" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  {{ form }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button type="submit">Регистрация &raquo;</button>
+</form>
+
+{% endblock %}

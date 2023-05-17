@@ -1,0 +1,36 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+  Создание новости
+{% endblock %}
+
+{% block content %}
+  <h2>Вы действительно хотите удалить данную новость?</h2>
+  <table class="table">
+    <thead>
+      <th>Автор</th>
+      <th>Заголовок</th>
+      <th>Время публикации</th>
+      <th>Тип поста</th>
+      <th>Категория</th>
+      <th>Текст</th>
+      <th>Рейтинг</th>
+    </thead>
+    <tr>
+      <td>{{ post.author }}</td>
+      <td>{{ post.title|censor }}</td>
+      <td>{{ post.time|date:'d M Y' }}</td>
+      <td>{{ post.post_type }}</td>
+      <td>{{ post.category.all|join:', ' }}</td>
+      <td>{{ post.text|censor }}</td>
+      <td>{{ post.rating }}</td>
+    </tr>
+  </table>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить. Удалить новость" />
+  </form>
+  <a href="{% url 'post_list' %}">Вернуться к списку новостей</a>
+{% endblock %}

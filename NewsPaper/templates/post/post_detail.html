@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+  Информация о посте
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <th>Автор</th>
+      <th>Заголовок</th>
+      <th>Время публикации</th>
+      <th>Тип поста</th>
+      <th>Категория</th>
+      <th>Текст</th>
+      <th>Рейтинг</th>
+    </thead>
+    <tr>
+      <td>{{ post.author }}</td>
+      <td>{{ post.title|censor }}</td>
+      <td>{{ post.time|date:'d M Y' }}</td>
+      <td>{{ post.post_type }}</td>
+      <td>{{ post.category.all|join:', ' }}</td>
+      <td>{{ post.text|censor }}</td>
+      <td>{{ post.rating }}</td>
+    </tr>
+  </table>
+  <a href="{% url 'post_list' %}">Вернуться к списку новостей</a>&nbsp;&nbsp;
+  <a href="{% url 'post_update' post.id %}">Редактировать новость</a>&nbsp;&nbsp;
+  <a href="{% url 'post_delete' post.id %}">Удалить новость</a>
+{% endblock %}

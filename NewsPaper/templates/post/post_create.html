@@ -1,0 +1,17 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+  Создание новости
+{% endblock %}
+
+{% block content %}
+  <h3>Ввод информации</h3>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Добавить новость" />
+  </form>
+  <a href="{% url 'post_list' %}">Вернуться к списку новостей</a>
+{% endblock %}
